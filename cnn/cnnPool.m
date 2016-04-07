@@ -11,9 +11,21 @@ function pooledFeatures = cnnPool(poolDim, convolvedFeatures)
 %                   pooledFeatures(poolRow, poolCol, featureNum, imageNum)
 %     
 
+
+disp(convolvedFeatures);
+
 numImages = size(convolvedFeatures, 4);
 numFilters = size(convolvedFeatures, 3);
 convolvedDim = size(convolvedFeatures, 1);
+
+disp('numImages: ');
+disp(numImages);
+
+disp('numFilters: ');
+disp(numFilters);
+
+disp('convolvedDim: ');
+disp(convolvedDim);
 
 pooledFeatures = zeros(convolvedDim / poolDim, ...
         convolvedDim / poolDim, numFilters, numImages);
@@ -29,7 +41,28 @@ pooledFeatures = zeros(convolvedDim / poolDim, ...
 %   
 %   Use mean pooling here.
 
+% You should implement mean pooling (i.e., averaging over feature responses) for this part.
+% This can be done efficiently using the conv2 function as well. 
+% The inputs are the responses of each image with each filter computed in the previous step. 
+% Convolve each of these with a matrix of ones followed by a subsampling and averaging. 
+% Make sure to use the “valid” border handling convolution.
+
 %%% YOUR CODE HERE %%%
+poolFilter = ones(poolDim) * 1/poolDim/poolDim;
+disp('poolFilter');
+disp(poolFilter);
+for imageNum = 1:numImages
+    for filterNum = 1:numFilters
+		features = convolvedFeatures(:, :, filterNum, imageNum);
+
+		
+
+		poolConvolvedFeatures = conv2(features, poolFilter, 'valid');
+		disp('poolConvolvedFeatures');
+		disp(poolConvolvedFeatures);
+		pooledFeatures(:, :, filterNum, imageNum) = poolConvolvedFeatures(1:poolDim:end, 1:poolDim:end);
+    end
+end
 
 end
 

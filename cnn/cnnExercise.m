@@ -81,18 +81,27 @@ disp('Congratulations! Your convolution code passed the test.');
 
 %% STEP 2a: Implement pooling
 % NOTE: Implement cnnPool in cnnPool.m first!
-pooledFeatures = cnnPool(poolDim, convolvedFeatures);
+% pooledFeatures = cnnPool(poolDim, convolvedFeatures);
 
 %% STEP 2b: Checking your pooling
 %  To ensure that you have implemented pooling, we will use your pooling
 %  function to pool over a test matrix and check the results.
 
 testMatrix = reshape(1:64, 8, 8);
+disp('TestMatrix: ');
+disp(testMatrix);
+
+disp('TestMatrix 1:4: ');
+disp(mean(testMatrix(1:4,1:4)));
+
 expectedMatrix = [mean(mean(testMatrix(1:4, 1:4))) mean(mean(testMatrix(1:4, 5:8))); ...
                   mean(mean(testMatrix(5:8, 1:4))) mean(mean(testMatrix(5:8, 5:8))); ];
-            
+disp('expectedMatrix: ');
+disp(expectedMatrix);
+
 testMatrix = reshape(testMatrix, 8, 8, 1, 1);
-        
+disp('TestMatrix reshape: ');
+disp(testMatrix);
 pooledFeatures = squeeze(cnnPool(4, testMatrix));
 
 if ~isequal(pooledFeatures, expectedMatrix)
